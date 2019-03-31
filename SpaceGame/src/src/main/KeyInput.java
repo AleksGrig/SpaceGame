@@ -17,13 +17,13 @@ public class KeyInput extends KeyAdapter {
 		
 		if(Game.getState() == STATE.GAME) {
 			if(key == KeyEvent.VK_RIGHT) {
-				Player.getPlayer().setVelX(3);
+				Player.setVelX(3);
 			} else if (key == KeyEvent.VK_LEFT) {
-				Player.getPlayer().setVelX(-3);
+				Player.setVelX(-3);
 			} else if (key == KeyEvent.VK_UP) {
-				Player.getPlayer().setVelY(-3);
+				Player.setVelY(-3);
 			} else if (key == KeyEvent.VK_DOWN) {
-				Player.getPlayer().setVelY(3);
+				Player.setVelY(3);
 			} else if (key == KeyEvent.VK_SPACE && !is_shooting) {
 				is_shooting = true;
 				Controller.addEntity(new Bullet(Player.getPlayer().getX(), Player.getPlayer().getY() - 32));
@@ -42,13 +42,13 @@ public class KeyInput extends KeyAdapter {
 		int key = e.getKeyCode();
 		
 		if(key == KeyEvent.VK_RIGHT) {
-			Player.getPlayer().setVelX(0);
+			Player.setVelX(0);
 		} else if (key == KeyEvent.VK_LEFT) {
-			Player.getPlayer().setVelX(0);
+			Player.setVelX(0);
 		} else if (key == KeyEvent.VK_UP) {
-			Player.getPlayer().setVelY(0);
+			Player.setVelY(0);
 		} else if (key == KeyEvent.VK_DOWN) {
-			Player.getPlayer().setVelY(0);
+			Player.setVelY(0);
 		} else if (key == KeyEvent.VK_SPACE) {
 			is_shooting = false;
 		}	
