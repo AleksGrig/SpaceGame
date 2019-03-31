@@ -3,9 +3,9 @@ package src.main;
 import java.awt.Graphics;
 import java.util.Random;
 
-import src.interfaces.EntityEnergyBonus;
+import src.interfaces.EntityBonus;
 
-public class EnergyBonus extends GameObject implements EntityEnergyBonus {
+public class EnergyBonus extends GameObject implements EntityBonus {
 	
 	private Random r = new Random();
 	private int speed;
