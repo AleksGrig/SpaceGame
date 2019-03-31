@@ -12,14 +12,14 @@ import java.util.Random;
 import src.interfaces.Entity;
 import src.interfaces.EntityPlayer;
 import src.interfaces.EntityEnemy;
-import src.interfaces.EntityEnergyBonus;
+import src.interfaces.EntityBonus;
 import src.interfaces.EntityExplosion;
 
 public class Controller {
 
 	private static LinkedList<Entity> entities;
 	private static LinkedList<EntityExplosion> explosions;
-	private static LinkedList<EntityEnergyBonus> energyBonus;
+	private static LinkedList<EntityBonus> energyBonus;
 	private static Random r = new Random();
 	
 	public static void createEnemy(int enemy_count) {
@@ -116,7 +116,7 @@ public class Controller {
 		}
 	}
 	
-	public static void energyBonusCollides(EntityEnergyBonus energy) {
+	public static void energyBonusCollides(EntityBonus energy) {
 		if(energy.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Player.increaseEnergy(((EnergyBonus) energy).getEnergy());
 			Controller.energyBonus.remove(energy);
@@ -127,8 +127,8 @@ public class Controller {
 	public static void addEntity(Entity block) {
 		if(block instanceof EntityExplosion) {
 			explosions.add((EntityExplosion) block);
-		} else if(block instanceof EntityEnergyBonus) {
-			energyBonus.add((EntityEnergyBonus) block);
+		} else if(block instanceof EntityBonus) {
+			energyBonus.add((EntityBonus) block);
 		} else {
 			entities.add(block);
 		}
@@ -137,7 +137,7 @@ public class Controller {
 	public static void removeEntity(Entity block) {
 		if(block instanceof EntityExplosion) {
 			explosions.remove(block);
-		} else if(block instanceof EntityEnergyBonus) {
+		} else if(block instanceof EntityBonus) {
 			energyBonus.remove(block);
 		} else {
 			entities.remove(block);
@@ -147,7 +147,7 @@ public class Controller {
 	public static void initController() {
 		entities = new LinkedList<Entity>();
 		explosions = new LinkedList<EntityExplosion>();
-		energyBonus = new LinkedList<EntityEnergyBonus>();
+		energyBonus = new LinkedList<EntityBonus>();
 	}
 }
 	
