@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 		
-		Player.setPlayer(null);								// Setting player to null in case of restarting game
+		Player.resetPlayer();								// Setting player to null in case of restarting game
 		Player.getPlayer();									// Creating new player with full health 
 		Controller.initController();						// Creating list for game objects
 		Game.setEnemyCount(5);

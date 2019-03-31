@@ -10,8 +10,8 @@ import src.interfaces.EntityPlayer;
 
 public class Player extends GameObject implements EntityPlayer {
 	
-	private double velX = 0;
-	private double velY = 0;
+	private static double velX = 0;
+	private static double velY = 0;
 	private static int energy;
 	private static Player player;
 	
@@ -39,12 +39,12 @@ public class Player extends GameObject implements EntityPlayer {
 		g.drawImage(Textures.player, (int)x, (int)y, null);
 	}
 	
-	public void setVelX(double velX) {
-		this.velX = velX;
+	public static void setVelX(double value) {
+		velX = value;
 	}
 	
-	public void setVelY(double velY) {
-		this.velY = velY;
+	public static void setVelY(double value) {
+		velY = value;
 	}
 	
 	public static Player getPlayer() {
@@ -54,8 +54,8 @@ public class Player extends GameObject implements EntityPlayer {
 		return player;
 	}
 	
-	public static void setPlayer(Player value) {
-		player = value;
+	public static void resetPlayer() {
+		player = null;
 	}
 	
 	public static void setEnergy(int value) {
