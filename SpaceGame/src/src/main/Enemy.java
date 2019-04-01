@@ -12,13 +12,16 @@ import src.interfaces.EntityEnemy;
 public class Enemy extends GameObject implements EntityEnemy{
 	
 	Random r = new Random();
-	private int speed = r.nextInt(3) + 1;
+	private int speed = r.nextInt(3) + 2;
 	
 	public Enemy(double x, double y) {
 		super(x, y);
 	}
 	
 	public void tick() {
+		if(r.nextInt(50) == 4) {
+			Controller.addEntity(new EnemyBullet(this.x, this.y + 32));
+		}
 		y += speed;
 	
 		Controller.enemyCollides(this);				// All collisions are processed from enemy point of view 
@@ -26,7 +29,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 		if(y > Game.HEIGHT * Game.SCALE) {			
 			Controller.removeEntity(this);			// If enemy reaches bottom of screen we delete it and
 			Controller.createEnemy(1);				// create new one above
-			Player.decreaseEnergy(10);
+			//Player.decreaseEnergy(10);
 		}		
 	}
 	

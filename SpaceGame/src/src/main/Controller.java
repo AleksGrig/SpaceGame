@@ -12,6 +12,7 @@ import java.util.Random;
 import src.interfaces.Entity;
 import src.interfaces.EntityPlayer;
 import src.interfaces.EntityEnemy;
+import src.interfaces.EntityEnemyBullet;
 import src.interfaces.EntityBonus;
 import src.interfaces.EntityExplosion;
 
@@ -20,6 +21,7 @@ public class Controller {
 	private static LinkedList<Entity> entities;
 	private static LinkedList<EntityExplosion> explosions;
 	private static LinkedList<EntityBonus> energyBonus;
+	private static LinkedList<EnemyBullet> enemyBullets;
 	private static Random r = new Random();
 	
 	public static void createEnemy(int enemy_count) {
@@ -70,6 +72,10 @@ public class Controller {
 		for(int i = 0; i < energyBonus.size(); i++) {
 			energyBonus.get(i).tick();
 		}
+		
+		for(int i = 0; i < enemyBullets.size(); i++) {
+			enemyBullets.get(i).tick();
+		}
 	}
 	
 	public static void render(Graphics g) {
@@ -86,6 +92,10 @@ public class Controller {
 		for(int i = 0; i < energyBonus.size(); i++) {
 			energyBonus.get(i).render(g);
 		}
+		
+		for(int i = 0; i < enemyBullets.size(); i++) {
+			enemyBullets.get(i).render(g);
+		}
 	}
 	
 	// All collisions are processed from enemy point of view 
@@ -95,22 +105,18 @@ public class Controller {
 		if(enemy.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.removeEntity(enemy);
 			Controller.addEntity(new Explosion(x, y));
-			Game.setEnemyKilled(Game.getEnemyKilled() + 1);
 			Game.setScore(Game.getScore() + 1);
-			Player.decreaseEnergy(10);
+			Player.decreaseEnergy(15);
 		} else 
 			for(int i = 0; i < entities.size(); i++) {
 			if((enemy != entities.get(i)) && (enemy.getBounds().intersects(entities.get(i).getBounds()))) {
 				if(entities.get(i) instanceof EntityPlayer) {
-					Game.setEnemyKilled(Game.getEnemyKilled() + 1);
 					Game.setScore(Game.getScore() + 1);
-					} else {
-					Game.setEnemyKilled(Game.getEnemyKilled() + 2);
-				}
-					Controller.removeEntity(entities.get(i));
-					Controller.removeEntity(enemy);
-					Controller.addEntity(new Explosion(x, y));
-					break;
+					}
+				Controller.removeEntity(entities.get(i));
+				Controller.removeEntity(enemy);
+				Controller.addEntity(new Explosion(x, y));
+				break;
 				
 			}
 		}
@@ -124,11 +130,31 @@ public class Controller {
 		
 	}
 	
+	public static void enemyBulletCollides(EnemyBullet enemyBullet) {
+		if(enemyBullet.getBounds().intersects(Player.getPlayer().getBounds())) {
+			Controller.removeEntity(enemyBullet);
+			Player.decreaseEnergy(10);
+		}
+		for(int i = 0; i < entities.size(); i++) {
+			if(enemyBullet.getBounds().intersects(entities.get(i).getBounds())) {
+				if(entities.get(i) instanceof EntityPlayer) {
+				Controller.removeEntity(entities.get(i));
+				Controller.removeEntity(enemyBullet);
+				} else if(entities.get(i) instanceof EntityEnemy) {
+					Controller.removeEntity(enemyBullet);
+				}
+			}
+		}
+		
+	}
+	
 	public static void addEntity(Entity block) {
 		if(block instanceof EntityExplosion) {
 			explosions.add((EntityExplosion) block);
 		} else if(block instanceof EntityBonus) {
 			energyBonus.add((EntityBonus) block);
+		} else if(block instanceof EntityEnemyBullet){
+			enemyBullets.add((EnemyBullet) block);
 		} else {
 			entities.add(block);
 		}
@@ -139,6 +165,8 @@ public class Controller {
 			explosions.remove(block);
 		} else if(block instanceof EntityBonus) {
 			energyBonus.remove(block);
+		} else if(block instanceof EntityEnemyBullet){
+			enemyBullets.remove(block);
 		} else {
 			entities.remove(block);
 		}
@@ -148,6 +176,21 @@ public class Controller {
 		entities = new LinkedList<Entity>();
 		explosions = new LinkedList<EntityExplosion>();
 		energyBonus = new LinkedList<EntityBonus>();
+		enemyBullets = new LinkedList<EnemyBullet>();
+	}
+	
+	public static int getEnemyNumber() {
+		if(entities  != null) {
+			int number = 0;
+			for(int i = 0; i < entities.size(); i++) {
+				if(entities.get(i) instanceof EntityEnemy) {
+					number++;
+				}				
+			}	
+			return number;
+		} else {
+			return 0;
+		}
 	}
 }
 	

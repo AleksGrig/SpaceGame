@@ -17,7 +17,9 @@ public class Bullet extends GameObject implements EntityPlayer{
 	public void tick() {
 		y -= 10;
 		
-		if(y < 0) Controller.removeEntity(this);  			// Remove bullet when leaving the screen
+		if(y < 0) {
+			Controller.removeEntity(this);  			// Remove bullet when leaving the screen
+		}
 	}
 	
 	public void render(Graphics g) {
