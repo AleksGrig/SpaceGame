@@ -13,9 +13,16 @@ public class Enemy extends GameObject implements EntityEnemy{
 	
 	Random r = new Random();
 	private int speed = r.nextInt(3) + 2;
+	private int velX;
 	
 	public Enemy(double x, double y) {
 		super(x, y);
+		if(r.nextBoolean()) {
+			velX = r.nextInt(2) + 1;
+			} else {
+				velX = -1 * (r.nextInt(2) + 1);
+			}
+		
 	}
 	
 	public void tick() {
@@ -23,6 +30,18 @@ public class Enemy extends GameObject implements EntityEnemy{
 			Controller.addEntity(new EnemyBullet(this.x, this.y + 32));
 		}
 		y += speed;
+		
+		if(r.nextInt(50) == 7) {
+			if(r.nextBoolean()) {
+				this.velX += (r.nextInt(3) + 1);
+			} else {
+				this.velX -= (r.nextInt(3) + 1);
+			}			
+		}
+		x += velX;
+		
+		if(x <= 0) x = 0;
+		if(x >= (Game.WIDTH * Game.SCALE) - 32) x = (Game.WIDTH * Game.SCALE) - 32;
 	
 		Controller.enemyCollides(this);				// All collisions are processed from enemy point of view 
 		
