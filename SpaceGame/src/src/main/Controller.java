@@ -137,11 +137,9 @@ public class Controller {
 		}
 		for(int i = 0; i < entities.size(); i++) {
 			if(enemyBullet.getBounds().intersects(entities.get(i).getBounds())) {
+				Controller.removeEntity(enemyBullet);
 				if(entities.get(i) instanceof EntityPlayer) {
 				Controller.removeEntity(entities.get(i));
-				Controller.removeEntity(enemyBullet);
-				} else if(entities.get(i) instanceof EntityEnemy) {
-					Controller.removeEntity(enemyBullet);
 				}
 			}
 		}

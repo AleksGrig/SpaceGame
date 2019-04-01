@@ -29,7 +29,6 @@ public class Enemy extends GameObject implements EntityEnemy{
 		if(y > Game.HEIGHT * Game.SCALE) {			
 			Controller.removeEntity(this);			// If enemy reaches bottom of screen we delete it and
 			Controller.createEnemy(1);				// create new one above
-			//Player.decreaseEnergy(10);
 		}		
 	}
 	
