@@ -53,8 +53,7 @@ public class Controller {
 					isIntersected = true;
 				}
 			}
-		} while(isIntersected);
-		
+		} while(isIntersected);		
 		return enemy;
 	}
 		
@@ -100,11 +99,9 @@ public class Controller {
 	
 	// All collisions are processed from enemy point of view 
 	public static void enemyCollides(EntityEnemy enemy) {
-		double x = enemy.getX();
-		double y = enemy.getY();
 		if(enemy.getBounds().intersects(Player.getPlayer().getBounds())) {
+			Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
 			Controller.removeEntity(enemy);
-			Controller.addEntity(new Explosion(x, y));
 			Game.setScore(Game.getScore() + 1);
 			Player.decreaseEnergy(15);
 		} else 
@@ -114,10 +111,9 @@ public class Controller {
 					Game.setScore(Game.getScore() + 1);
 					}
 				Controller.removeEntity(entities.get(i));
+				Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
 				Controller.removeEntity(enemy);
-				Controller.addEntity(new Explosion(x, y));
-				break;
-				
+				break;				
 			}
 		}
 	}
@@ -126,8 +122,7 @@ public class Controller {
 		if(energy.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Player.increaseEnergy(((EnergyBonus) energy).getEnergy());
 			Controller.energyBonus.remove(energy);
-		}
-		
+		}		
 	}
 	
 	public static void enemyBulletCollides(EnemyBullet enemyBullet) {
@@ -142,8 +137,7 @@ public class Controller {
 				Controller.removeEntity(entities.get(i));
 				}
 			}
-		}
-		
+		}		
 	}
 	
 	public static void addEntity(Entity block) {

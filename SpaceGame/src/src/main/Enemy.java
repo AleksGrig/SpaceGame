@@ -21,8 +21,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 			velX = r.nextInt(2) + 1;
 			} else {
 				velX = -1 * (r.nextInt(2) + 1);
-			}
-		
+			}		
 	}
 	
 	public void tick() {
