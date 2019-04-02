@@ -21,7 +21,7 @@ public class Controller {
 	private static LinkedList<Entity> entities;
 	private static LinkedList<EntityExplosion> explosions;
 	private static LinkedList<EntityBonus> energyBonus;
-	private static LinkedList<EnemyBullet> enemyBullets;
+	private static LinkedList<EntityEnemyBullet> enemyBullets;
 	private static Random r = new Random();
 	
 	public static void createEnemy(int enemy_count) {
@@ -125,7 +125,7 @@ public class Controller {
 		}		
 	}
 	
-	public static void enemyBulletCollides(EnemyBullet enemyBullet) {
+	public static void enemyBulletCollides(EntityEnemyBullet enemyBullet) {
 		if(enemyBullet.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.removeEntity(enemyBullet);
 			Player.decreaseEnergy(10);
@@ -146,7 +146,7 @@ public class Controller {
 		} else if(block instanceof EntityBonus) {
 			energyBonus.add((EntityBonus) block);
 		} else if(block instanceof EntityEnemyBullet){
-			enemyBullets.add((EnemyBullet) block);
+			enemyBullets.add((EntityEnemyBullet) block);
 		} else {
 			entities.add(block);
 		}
@@ -168,7 +168,7 @@ public class Controller {
 		entities = new LinkedList<Entity>();
 		explosions = new LinkedList<EntityExplosion>();
 		energyBonus = new LinkedList<EntityBonus>();
-		enemyBullets = new LinkedList<EnemyBullet>();
+		enemyBullets = new LinkedList<EntityEnemyBullet>();
 	}
 	
 	public static int getEnemyNumber() {

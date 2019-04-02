@@ -11,7 +11,7 @@ import src.interfaces.EntityEnemy;
 
 public class Enemy extends GameObject implements EntityEnemy{
 	
-	Random r = new Random();
+	private Random r = new Random();
 	private int speed = r.nextInt(3) + 2;
 	private int velX;
 	
