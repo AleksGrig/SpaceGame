@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -24,12 +25,11 @@ public class Game extends Canvas implements Runnable {
 	public static final int SCALE = 2;
 	public final String TITLE = "2D Space Game";
 	
+	private Random r = new Random();
 	private static int SCORE;
 	private static int RECORD;
 	private static boolean running = false;
 	private static Thread thread;
-	private static int enemyCount;
-	private static int enemy_killed;
 	private static STATE State = STATE.MENU;
 	public static boolean isGameBegining = true;
 		
@@ -55,10 +55,8 @@ public class Game extends Canvas implements Runnable {
 		Player.resetPlayer();								// Setting player to null in case of restarting game
 		Player.getPlayer();									// Creating new player with full health 
 		Controller.initController();						// Creating list for game objects
-		Game.setEnemyCount(5);
-		Game.setEnemyKilled(0);
 		Game.setScore(0);
-		Controller.createEnemy(enemyCount);					// Enemies are created in Controller class
+		Controller.createEnemy(5);							// Enemies are created in Controller class
 	}
 	
 	// Game loop works in separate thread
@@ -118,12 +116,10 @@ public class Game extends Canvas implements Runnable {
 	private void tick() {
 		if(State == STATE.GAME) {
 			Controller.tick();								// All game objects move
-		
-			if(enemy_killed >= enemyCount) {				// When all enemies are killed 
-				if(enemyCount < 15) enemyCount += 2;		// We generate two more than before
-				enemy_killed = 0;
-				Controller.createEnemy(enemyCount);
-			}					
+	
+			if(Controller.getEnemyNumber() < 5) {
+				Controller.createEnemy(1 + r.nextInt(3));
+			}
 		}
 	}
 	
@@ -145,6 +141,7 @@ public class Game extends Canvas implements Runnable {
 			Controller.render(g);							// All game objects render
 			Textures.energyBar(g);
 			Textures.drawScore(g);
+			Textures.temperatureBar(g);
 		} else if(State == STATE.MENU) {
 			Screens.drawMenu(g);
 		} else if(State == STATE.HELP) {
@@ -181,22 +178,6 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void setState(STATE value) {
 		State = value;
-	}
-	
-	public static int getEnemy_count() {
-		return enemyCount;
-	}
-
-	public static void setEnemyCount(int count) {
-		enemyCount = count;		
-	}
-
-	public static int getEnemyKilled() {
-		return enemy_killed;
-	}
-
-	public  static void setEnemyKilled(int killed) {
-		enemy_killed = killed;
 	}
 	
 	public static int getScore() {
