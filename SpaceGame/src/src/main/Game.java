@@ -141,6 +141,7 @@ public class Game extends Canvas implements Runnable {
 			Controller.render(g);							// All game objects render
 			Textures.energyBar(g);
 			Textures.drawScore(g);
+			Textures.temperatureBar(g);
 		} else if(State == STATE.MENU) {
 			Screens.drawMenu(g);
 		} else if(State == STATE.HELP) {

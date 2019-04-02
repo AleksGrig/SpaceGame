@@ -103,7 +103,7 @@ public class Controller {
 			Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
 			Controller.removeEntity(enemy);
 			Game.setScore(Game.getScore() + 1);
-			Player.decreaseEnergy(15);
+			Player.decreaseEnergy(25);
 		} else 
 			for(int i = 0; i < entities.size(); i++) {
 			if((enemy != entities.get(i)) && (enemy.getBounds().intersects(entities.get(i).getBounds()))) {

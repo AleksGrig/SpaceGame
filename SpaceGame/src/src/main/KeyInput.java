@@ -24,10 +24,11 @@ public class KeyInput extends KeyAdapter {
 				Player.setVelY(-3);
 			} else if (key == KeyEvent.VK_DOWN) {
 				Player.setVelY(3);
-			} else if (key == KeyEvent.VK_SPACE && !is_shooting) {
+			} else if (key == KeyEvent.VK_SPACE && !is_shooting && Player.getTemperature() < 95) {
 				is_shooting = true;
 				Controller.addEntity(new Bullet(Player.getPlayer().getX(), Player.getPlayer().getY() - 32));
-				Player.decreaseEnergy(2);
+				Player.decreaseEnergy(1);
+				Player.increaseTemperature(5);
 			} else if (key == KeyEvent.VK_ESCAPE) {
 				Player.die();				
 			}

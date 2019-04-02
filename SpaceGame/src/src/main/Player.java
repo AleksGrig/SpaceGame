@@ -14,10 +14,12 @@ public class Player extends GameObject implements EntityPlayer {
 	private static double velY = 0;
 	private static int energy;
 	private static Player player;
+	private static double temperature;
 	
 	private Player(double x, double y) {
 		super(x, y);
 		energy = 100;
+		temperature = 0;
 		}
 	
 	public static void die() {
@@ -27,6 +29,8 @@ public class Player extends GameObject implements EntityPlayer {
 	public void tick() {
 		x += velX;
 		y += velY;
+		
+		temperature -= 0.1;
 
 		// Processing of boundaries
 		if(x <= 0) x = 0;
@@ -75,6 +79,20 @@ public class Player extends GameObject implements EntityPlayer {
 	public static void decreaseEnergy(int value) {
 		energy -= value;
 		if(energy <= 0) Player.die();
+	}
+	
+	public static void increaseTemperature(int value) {
+		temperature += value;
+		if(temperature > 100) temperature = 100;
+	}
+	
+	public static void decreaseTemperature(double value) {
+		temperature -= value;
+		if(temperature < 0) temperature = 0;
+	}
+	
+	public static double getTemperature() {
+		return temperature;
 	}
 }
 

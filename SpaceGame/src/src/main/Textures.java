@@ -53,11 +53,25 @@ public class Textures {
 		g.setColor(Color.WHITE);
 		g.drawRect(5, 5, 200, 50);
 	}
+	
+	public static void temperatureBar(Graphics g) {
+		g.setColor(Color.GRAY);
+		g.fillRect(435, 5, 200, 50);
+		g.setColor(Color.RED);
+		g.fillRect(435, 5, (int)Player.getTemperature() * 2, 50);
+		g.setColor(Color.WHITE);
+		g.drawRect(435, 5, 200, 50);
+		Font font = new Font("arial", Font.BOLD, 20);
+		g.setFont(font);	
+		g.drawString("TEMPERATURE", 465, 40);
+		g.setColor(Color.BLACK);
+		g.drawString("ENERGY", 55, 40);		
+	}
 
 	public static void drawScore(Graphics g) {
 		Font font = new Font("arial", Font.BOLD, 20);
 		g.setFont(font);
-		g.drawString(String.valueOf("SCORE: " + Game.getScore()),520, 20);
-		g.drawString(String.valueOf("RECORD: " + Game.getRecord()),504, 40);
+		g.drawString(String.valueOf("RECORD: " + Game.getRecord()),5, 80);
+		g.drawString(String.valueOf("SCORE: " + Game.getScore()),5, 100);
 	}
 }
