@@ -39,6 +39,12 @@ public class KeyInput extends KeyAdapter {
 				Player.increaseTemperature(5);
 			} else if (key == KeyEvent.VK_ESCAPE) {
 				Player.die();				
+			} else if (key == KeyEvent.VK_X) {
+				if(!Game.isPaused) {
+					Game.isPaused = true;
+				} else {
+					Game.isPaused = false;
+				}
 			}
 		}
 		if(key == KeyEvent.VK_ESCAPE) {

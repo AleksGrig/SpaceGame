@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 
 public class Textures {
 	
-	public static BufferedImage player, missile, enemy, energy, enemyBullet;
+	public static BufferedImage player, missile, enemy, energy, enemyBullet, shield;
 	public static BufferedImage[] explosion = new BufferedImage[3];
 	public static BufferedImage background;
 	private static BufferedImage spriteSheet;
@@ -32,6 +32,7 @@ public class Textures {
 		enemy = grabImage(2, 0, 32, 32);
 		energy = grabImage(4, 0, 32, 32);
 		enemyBullet = grabImage(0, 1, 32, 32);
+		shield = grabImage(1, 1, 32, 32);
 		for(int i = 0; i < explosion.length; i++) {
 		explosion[i] = grabImage(3, i, 32, 32);
 		}
