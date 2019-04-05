@@ -20,7 +20,7 @@ public class Controller {
 
 	private static LinkedList<Entity> entities;
 	private static LinkedList<EntityExplosion> explosions;
-	private static LinkedList<EntityBonus> energyBonus;
+	private static LinkedList<EntityBonus> bonuses;
 	private static LinkedList<EntityEnemyBullet> enemyBullets;
 	private static Random r = new Random();
 	
@@ -30,9 +30,11 @@ public class Controller {
 		}
 	}
 	
-	public static void createEnergyBonus(EntityExplosion explosion) {
+	public static void createBonus(EntityExplosion explosion) {
 		if(r.nextInt(5) == 3) {
-		energyBonus.add(new EnergyBonus(explosion.getX(), explosion.getY(), r.nextInt(100)));
+		bonuses.add(new EnergyBonus(explosion.getX(), explosion.getY(), r.nextInt(100)));
+		} else if(r.nextInt(30) == 15) {
+			bonuses.add(new ShieldBonus(explosion.getX(), explosion.getY()));
 		}
 	}
 	
@@ -68,8 +70,8 @@ public class Controller {
 			explosions.get(i).tick();
 		}
 		
-		for(int i = 0; i < energyBonus.size(); i++) {
-			energyBonus.get(i).tick();
+		for(int i = 0; i < bonuses.size(); i++) {
+			bonuses.get(i).tick();
 		}
 		
 		for(int i = 0; i < enemyBullets.size(); i++) {
@@ -88,8 +90,8 @@ public class Controller {
 			explosions.get(i).render(g);
 		}
 		
-		for(int i = 0; i < energyBonus.size(); i++) {
-			energyBonus.get(i).render(g);
+		for(int i = 0; i < bonuses.size(); i++) {
+			bonuses.get(i).render(g);
 		}
 		
 		for(int i = 0; i < enemyBullets.size(); i++) {
@@ -103,7 +105,9 @@ public class Controller {
 			Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
 			Controller.removeEntity(enemy);
 			Game.setScore(Game.getScore() + 1);
-			Player.decreaseEnergy(25);
+			if(!Player.isShielded()) {
+				Player.decreaseEnergy(25);
+			}
 		} else 
 			for(int i = 0; i < entities.size(); i++) {
 			if((enemy != entities.get(i)) && (enemy.getBounds().intersects(entities.get(i).getBounds()))) {
@@ -118,17 +122,25 @@ public class Controller {
 		}
 	}
 	
-	public static void energyBonusCollides(EntityBonus energy) {
-		if(energy.getBounds().intersects(Player.getPlayer().getBounds())) {
-			Player.increaseEnergy(((EnergyBonus) energy).getEnergy());
-			Controller.energyBonus.remove(energy);
+	public static void bonusCollides(EntityBonus bonus) {
+		if(bonus.getBounds().intersects(Player.getPlayer().getBounds())) {
+			if(bonus instanceof EnergyBonus) {
+				if(!Player.isShielded()) {
+					Player.increaseEnergy(((EnergyBonus) bonus).getEnergy());
+				}
+			} else if(bonus instanceof ShieldBonus) {
+				if(!Player.isShielded()) Player.setShield();
+			}
+			Controller.removeEntity(bonus);
 		}		
 	}
 	
 	public static void enemyBulletCollides(EntityEnemyBullet enemyBullet) {
 		if(enemyBullet.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.removeEntity(enemyBullet);
-			Player.decreaseEnergy(10);
+			if(!Player.isShielded()) {
+				Player.decreaseEnergy(10);
+			}
 		}
 		for(int i = 0; i < entities.size(); i++) {
 			if(enemyBullet.getBounds().intersects(entities.get(i).getBounds())) {
@@ -144,7 +156,7 @@ public class Controller {
 		if(block instanceof EntityExplosion) {
 			explosions.add((EntityExplosion) block);
 		} else if(block instanceof EntityBonus) {
-			energyBonus.add((EntityBonus) block);
+			bonuses.add((EntityBonus) block);
 		} else if(block instanceof EntityEnemyBullet){
 			enemyBullets.add((EntityEnemyBullet) block);
 		} else {
@@ -156,7 +168,7 @@ public class Controller {
 		if(block instanceof EntityExplosion) {
 			explosions.remove(block);
 		} else if(block instanceof EntityBonus) {
-			energyBonus.remove(block);
+			bonuses.remove(block);
 		} else if(block instanceof EntityEnemyBullet){
 			enemyBullets.remove(block);
 		} else {
@@ -167,7 +179,7 @@ public class Controller {
 	public static void initController() {
 		entities = new LinkedList<Entity>();
 		explosions = new LinkedList<EntityExplosion>();
-		energyBonus = new LinkedList<EntityBonus>();
+		bonuses = new LinkedList<EntityBonus>();
 		enemyBullets = new LinkedList<EntityEnemyBullet>();
 	}
 	

@@ -36,7 +36,7 @@ public class MouseInput extends MouseAdapter{
 		} else if(Game.getState() == STATE.LOSE) {
 			if((mx >= Game.WIDTH / 2 + 120) && (mx <=  Game.WIDTH / 2 + 220) && (my >= 350 && my <= 400)) {
 				Game.setState(STATE.MENU);
-				Game.isGameBegining = true;
+				Game.setBeginGame();
 			}	
 		}
 	}

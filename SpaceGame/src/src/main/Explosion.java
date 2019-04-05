@@ -14,7 +14,7 @@ public class Explosion extends GameObject implements EntityExplosion{
 
 	public void tick() {
 		if(System.currentTimeMillis() - timer > 1000) {
-			Controller.createEnergyBonus(this);
+			Controller.createBonus(this);
 			Controller.removeEntity(this);
 		}
 		

@@ -31,8 +31,9 @@ public class Game extends Canvas implements Runnable {
 	private static boolean running = false;
 	private static Thread thread;
 	private static STATE State = STATE.MENU;
-	public static boolean isGameBegining = true;
-		
+	private static boolean isGameBegining = true;
+	private static boolean isPaused = false;
+	
 	private void initInterface() {
 		addKeyListener(new KeyInput());						// Catching key strokes in class KeyInput 
 		addMouseListener(new MouseInput());
@@ -93,6 +94,15 @@ public class Game extends Canvas implements Runnable {
 		long timer = System.currentTimeMillis();
 		
 		while(running){
+			while(isPaused) {
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				timer = System.currentTimeMillis();
+				lastTime = System.nanoTime();
+			}
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
@@ -190,5 +200,25 @@ public class Game extends Canvas implements Runnable {
 	
 	public static int getRecord() {
 		return RECORD;
+	}
+	
+	public static void setBeginGame() {
+		isGameBegining = true;
+	}
+	
+	public static void unsetBeginGame() {
+		isGameBegining = false;
+	}
+	
+	public static void setPaused() {
+		isPaused = true;
+	}
+	
+	public static void setNotPaused() {
+		isPaused = false;
+	}
+	
+	public static boolean isPaused() {
+		return isPaused;
 	}
 }

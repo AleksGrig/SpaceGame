@@ -5,18 +5,16 @@ import java.util.Random;
 
 import src.interfaces.EntityBonus;
 
-public class EnergyBonus extends GameObject implements EntityBonus {
+public class ShieldBonus extends GameObject implements EntityBonus{
 	
 	private Random r = new Random();
 	private int speed;
-	private int energy;
 
-	public EnergyBonus(double x, double y, int energy) {
-		super(x, y);
-		this.energy = energy;
+	public ShieldBonus(double x, double y) {
+		super(x, y);	
 		speed = r.nextInt(3) + 1;
 	}
-
+	
 	public void tick() {
 		y += speed;
 		
@@ -24,16 +22,11 @@ public class EnergyBonus extends GameObject implements EntityBonus {
 		
 		if(y > Game.HEIGHT * Game.SCALE) {
 			Controller.removeEntity(this);
-		}		
+		}	
+		
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(Textures.energy, (int)x, (int)y, null);
-		
-	}
-	
-	public int getEnergy() {
-		return this.energy;
-	}
-
+		g.drawImage(Textures.shield, (int)x, (int)y, null);
+	}	
 }

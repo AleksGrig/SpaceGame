@@ -15,6 +15,8 @@ public class Player extends GameObject implements EntityPlayer {
 	private static int energy;
 	private static Player player;
 	private static double temperature;
+	private static boolean isShielded = false;
+	private static long shieldTimer;
 	
 	private Player(double x, double y) {
 		super(x, y);
@@ -37,10 +39,13 @@ public class Player extends GameObject implements EntityPlayer {
 		if(x >= (Game.WIDTH * Game.SCALE) - 32) x = (Game.WIDTH * Game.SCALE) - 32;
 		if(y <= 0) y = 0;
 		if(y >= (Game.HEIGHT * Game.SCALE) - 32) y = (Game.HEIGHT * Game.SCALE) - 32;
+		
+		if(Player.getShieldTimer() > 10000) isShielded = false;
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(Textures.player, (int)x, (int)y, null);
+		if(!isShielded) g.drawImage(Textures.player, (int)x, (int)y, null);
+		else g.drawImage(Textures.playerShielded, (int)x, (int)y, null);
 	}
 	
 	public static void setVelX(double value) {
@@ -93,6 +98,23 @@ public class Player extends GameObject implements EntityPlayer {
 	
 	public static double getTemperature() {
 		return temperature;
+	}
+	
+	public static void setShield() {
+		isShielded = true;
+		shieldTimer = System.currentTimeMillis();
+	}
+	
+	public static void removeShield() {
+		isShielded = false;
+	}
+	
+	public static boolean isShielded() {
+		return isShielded;
+	}
+	
+	public static long getShieldTimer() {
+		return (System.currentTimeMillis() - shieldTimer);
 	}
 }
 
