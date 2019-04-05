@@ -31,9 +31,8 @@ public class Game extends Canvas implements Runnable {
 	private static boolean running = false;
 	private static Thread thread;
 	private static STATE State = STATE.MENU;
-	
-	public static boolean isGameBegining = true;
-	public static boolean isPaused = false;
+	private static boolean isGameBegining = true;
+	private static boolean isPaused = false;
 	
 	private void initInterface() {
 		addKeyListener(new KeyInput());						// Catching key strokes in class KeyInput 
@@ -201,5 +200,25 @@ public class Game extends Canvas implements Runnable {
 	
 	public static int getRecord() {
 		return RECORD;
+	}
+	
+	public static void setBeginGame() {
+		isGameBegining = true;
+	}
+	
+	public static void unsetBeginGame() {
+		isGameBegining = false;
+	}
+	
+	public static void setPaused() {
+		isPaused = true;
+	}
+	
+	public static void setNotPaused() {
+		isPaused = false;
+	}
+	
+	public static boolean isPaused() {
+		return isPaused;
 	}
 }

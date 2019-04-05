@@ -35,15 +35,17 @@ public class KeyInput extends KeyAdapter {
 			} else if (key == KeyEvent.VK_SPACE && !is_shooting && Player.getTemperature() < 95) {
 				is_shooting = true;
 				Controller.addEntity(new Bullet(Player.getPlayer().getX(), Player.getPlayer().getY() - 32));
-				Player.decreaseEnergy(1);
+				if(!Player.isShielded()) {
+					Player.decreaseEnergy(1);
+				}
 				Player.increaseTemperature(5);
 			} else if (key == KeyEvent.VK_ESCAPE) {
 				Player.die();				
 			} else if (key == KeyEvent.VK_X) {
-				if(!Game.isPaused) {
-					Game.isPaused = true;
+				if(!Game.isPaused()) {
+					Game.setPaused();
 				} else {
-					Game.isPaused = false;
+					Game.setNotPaused();
 				}
 			}
 		}

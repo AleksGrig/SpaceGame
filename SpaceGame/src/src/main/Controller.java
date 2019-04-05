@@ -105,7 +105,9 @@ public class Controller {
 			Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
 			Controller.removeEntity(enemy);
 			Game.setScore(Game.getScore() + 1);
-			Player.decreaseEnergy(25);
+			if(!Player.isShielded()) {
+				Player.decreaseEnergy(25);
+			}
 		} else 
 			for(int i = 0; i < entities.size(); i++) {
 			if((enemy != entities.get(i)) && (enemy.getBounds().intersects(entities.get(i).getBounds()))) {
@@ -123,9 +125,11 @@ public class Controller {
 	public static void bonusCollides(EntityBonus bonus) {
 		if(bonus.getBounds().intersects(Player.getPlayer().getBounds())) {
 			if(bonus instanceof EnergyBonus) {
-			Player.increaseEnergy(((EnergyBonus) bonus).getEnergy());
+				if(!Player.isShielded()) {
+					Player.increaseEnergy(((EnergyBonus) bonus).getEnergy());
+				}
 			} else if(bonus instanceof ShieldBonus) {
-				// Shield processing
+				if(!Player.isShielded()) Player.setShield();
 			}
 			Controller.removeEntity(bonus);
 		}		
@@ -134,7 +138,9 @@ public class Controller {
 	public static void enemyBulletCollides(EntityEnemyBullet enemyBullet) {
 		if(enemyBullet.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.removeEntity(enemyBullet);
-			Player.decreaseEnergy(10);
+			if(!Player.isShielded()) {
+				Player.decreaseEnergy(10);
+			}
 		}
 		for(int i = 0; i < entities.size(); i++) {
 			if(enemyBullet.getBounds().intersects(entities.get(i).getBounds())) {
