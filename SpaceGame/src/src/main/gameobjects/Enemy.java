@@ -2,12 +2,16 @@
  *								Class responsible for enemy's behavior. 
  */
 
-package src.main;
+package src.main.gameobjects;
 
 import java.awt.Graphics;
 import java.util.Random;
 
 import src.interfaces.EntityEnemy;
+import src.main.Controller;
+import src.main.Game;
+import src.main.GameObject;
+import src.main.Textures;
 
 public class Enemy extends GameObject implements EntityEnemy{
 	

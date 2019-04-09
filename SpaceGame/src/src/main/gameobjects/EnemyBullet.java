@@ -1,8 +1,12 @@
-package src.main;
+package src.main.gameobjects;
 
 import java.awt.Graphics;
 
 import src.interfaces.EntityEnemyBullet;
+import src.main.Controller;
+import src.main.Game;
+import src.main.GameObject;
+import src.main.Textures;
 
 public class EnemyBullet extends GameObject implements EntityEnemyBullet{
 
