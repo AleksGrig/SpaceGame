@@ -1,9 +1,13 @@
-package src.main;
+package src.main.bonuses;
 
 import java.awt.Graphics;
 import java.util.Random;
 
 import src.interfaces.EntityBonus;
+import src.main.Controller;
+import src.main.Game;
+import src.main.GameObject;
+import src.main.Textures;
 
 public class EnergyBonus extends GameObject implements EntityBonus {
 	

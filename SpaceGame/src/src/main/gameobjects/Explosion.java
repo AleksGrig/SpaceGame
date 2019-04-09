@@ -1,7 +1,10 @@
-package src.main;
+package src.main.gameobjects;
 
 import java.awt.Graphics;
 import src.interfaces.EntityExplosion;
+import src.main.Controller;
+import src.main.GameObject;
+import src.main.Textures;
 
 public class Explosion extends GameObject implements EntityExplosion{
 	

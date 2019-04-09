@@ -2,11 +2,15 @@
  *								Class responsible for player's behavior.
  */
 
-package src.main;
+package src.main.gameobjects;
 
 import java.awt.Graphics;
 
 import src.interfaces.EntityPlayer;
+import src.main.Game;
+import src.main.GameObject;
+import src.main.STATE;
+import src.main.Textures;
 
 public class Player extends GameObject implements EntityPlayer {
 	
@@ -15,13 +19,17 @@ public class Player extends GameObject implements EntityPlayer {
 	private static int energy;
 	private static Player player;
 	private static double temperature;
-	private static boolean isShielded = false;
+	private static boolean isShielded;
 	private static long shieldTimer;
+	private static boolean isCooling;
+	private static long coolingTimer;
 	
 	private Player(double x, double y) {
 		super(x, y);
 		energy = 100;
 		temperature = 0;
+		isShielded = false;
+		isCooling = false;
 		}
 	
 	public static void die() {
@@ -41,6 +49,7 @@ public class Player extends GameObject implements EntityPlayer {
 		if(y >= (Game.HEIGHT * Game.SCALE) - 32) y = (Game.HEIGHT * Game.SCALE) - 32;
 		
 		if(Player.getShieldTimer() > 10000) isShielded = false;
+		if(Player.getCoolingTimer() > 10000) isCooling = false;
 	}
 	
 	public void render(Graphics g) {
@@ -115,6 +124,23 @@ public class Player extends GameObject implements EntityPlayer {
 	
 	public static long getShieldTimer() {
 		return (System.currentTimeMillis() - shieldTimer);
+	}
+	
+	public static boolean isCooling() {
+		return isCooling;
+	}
+	
+	public static void setCooling() {
+		isCooling = true;
+		coolingTimer = System.currentTimeMillis();
+	}
+	
+	public static void stopCooling() {
+		isCooling = false;
+	}
+	
+	public static long getCoolingTimer() {
+		return (System.currentTimeMillis() - coolingTimer);
 	}
 }
 

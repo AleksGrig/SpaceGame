@@ -11,6 +11,12 @@ import java.util.Random;
 
 import src.interfaces.Entity;
 import src.interfaces.EntityPlayer;
+import src.main.bonuses.CoolingBonus;
+import src.main.bonuses.EnergyBonus;
+import src.main.bonuses.ShieldBonus;
+import src.main.gameobjects.Enemy;
+import src.main.gameobjects.Explosion;
+import src.main.gameobjects.Player;
 import src.interfaces.EntityEnemy;
 import src.interfaces.EntityEnemyBullet;
 import src.interfaces.EntityBonus;
@@ -31,14 +37,16 @@ public class Controller {
 	}
 	
 	public static void createBonus(EntityExplosion explosion) {
-		if(r.nextInt(5) == 3) {
+		if(r.nextInt(10) == 3) {
 		bonuses.add(new EnergyBonus(explosion.getX(), explosion.getY(), r.nextInt(100)));
-		} else if(r.nextInt(30) == 15) {
+		} else if(r.nextInt(50) == 15) {
 			bonuses.add(new ShieldBonus(explosion.getX(), explosion.getY()));
+		} else if(r.nextInt(50) == 25) {
+			bonuses.add(new CoolingBonus(explosion.getX(), explosion.getY()));
 		}
 	}
 	
-	// Finding place for new enemy to not intersect with other existing enemies
+	// Finding place for new enemy without intersection with other existing enemies
 	public static Entity findPlace(Entity enemy) {
 		boolean isIntersected;
 		int x = 0;
@@ -99,7 +107,7 @@ public class Controller {
 		}
 	}
 	
-	// All collisions are processed from enemy point of view 
+	// Collisions processed from enemy point of view 
 	public static void enemyCollides(EntityEnemy enemy) {
 		if(enemy.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.addEntity(new Explosion(enemy.getX(), enemy.getY()));
@@ -122,6 +130,7 @@ public class Controller {
 		}
 	}
 	
+	// Collisions with bonuses 
 	public static void bonusCollides(EntityBonus bonus) {
 		if(bonus.getBounds().intersects(Player.getPlayer().getBounds())) {
 			if(bonus instanceof EnergyBonus) {
@@ -130,11 +139,14 @@ public class Controller {
 				}
 			} else if(bonus instanceof ShieldBonus) {
 				if(!Player.isShielded()) Player.setShield();
+			} else if(bonus instanceof CoolingBonus) {
+				if(!Player.isCooling()) Player.setCooling();
 			}
 			Controller.removeEntity(bonus);
-		}		
+		} 
 	}
 	
+	// Collisions with enemy bullets
 	public static void enemyBulletCollides(EntityEnemyBullet enemyBullet) {
 		if(enemyBullet.getBounds().intersects(Player.getPlayer().getBounds())) {
 			Controller.removeEntity(enemyBullet);

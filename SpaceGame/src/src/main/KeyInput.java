@@ -7,6 +7,9 @@ package src.main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import src.main.gameobjects.Bullet;
+import src.main.gameobjects.Player;
+
 public class KeyInput extends KeyAdapter {
 	
 	private boolean is_shooting = false;
@@ -38,7 +41,7 @@ public class KeyInput extends KeyAdapter {
 				if(!Player.isShielded()) {
 					Player.decreaseEnergy(1);
 				}
-				Player.increaseTemperature(5);
+				if(!Player.isCooling()) Player.increaseTemperature(5);
 			} else if (key == KeyEvent.VK_ESCAPE) {
 				Player.die();				
 			} else if (key == KeyEvent.VK_X) {
